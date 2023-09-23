@@ -1,4 +1,4 @@
-# backend for Hackaton Lenta
+# backend for Hackathon Lenta
 
 ## Описание:
 API для проекта по созданию предсказательной модели и интерфейса по прогнозированию спроса на товары заказчика собственного производства ООО “Лента”.
@@ -33,5 +33,5 @@ docker-compose up
 Выполняется из корневой папки проекта.
 
 ## Команда проекта:
-Бирюков Павел (github: )
-Пеньтюк Павел (github: https://github.com/PentiukPavel)
+- Бирюков Павел (github: )
+- Пеньтюк Павел (github: https://github.com/PentiukPavel)
