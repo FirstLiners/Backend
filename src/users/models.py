@@ -10,6 +10,7 @@ class User(AbstractUser, PermissionsMixin):
     """
     Модель пользователя.
     """
+
     username = None
     email = models.EmailField(
         verbose_name="Адрес электронной почты",
