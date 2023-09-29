@@ -1,11 +1,16 @@
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from rest_framework import filters
 from rest_framework.mixins import ListModelMixin
 from rest_framework.viewsets import GenericViewSet
 
 from skus.models import Category, Group, SKU, SubCategory
 
-from .serializers import (CategorySerializer, GroupSerializer, SKUSerializer,
-                          SubCategorySerializer)
+from .serializers import (
+    CategorySerializer,
+    GroupSerializer,
+    SKUSerializer,
+    SubCategorySerializer,
+)
 
 
 @extend_schema(tags=["SKUs"])
@@ -16,8 +21,11 @@ class SKUViewSet(ListModelMixin, GenericViewSet):
     """
     Вьюсет для товарных позиций.
     """
+
     queryset = SKU.objects.all()
     serializer_class = SKUSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["sku_id"]
 
 
 @extend_schema(tags=["Groups"])
@@ -28,8 +36,11 @@ class GroupViewSet(ListModelMixin, GenericViewSet):
     """
     Вьюсет для групп товаров.
     """
+
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["group_id"]
 
 
 @extend_schema(tags=["Categories"])
@@ -40,8 +51,11 @@ class CategoryViewSet(ListModelMixin, GenericViewSet):
     """
     Вьюсет для категорий товаров.
     """
+
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["cat_id"]
 
 
 @extend_schema(tags=["Subcategories"])
@@ -52,5 +66,8 @@ class SubCategoryViewSet(ListModelMixin, GenericViewSet):
     """
     Вьюсет для подкатегорий товаров.
     """
+
     queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["subcat_id"]

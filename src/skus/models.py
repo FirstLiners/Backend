@@ -97,9 +97,7 @@ class SKU(models.Model):
         related_name="skus",
     )
 
-    uom = models.PositiveIntegerField(
-        "Идентификатор единицы измерения"
-    )
+    uom = models.PositiveIntegerField("Идентификатор единицы измерения")
 
     objects = SKUManager()
 

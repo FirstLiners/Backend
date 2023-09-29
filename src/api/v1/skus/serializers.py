@@ -10,7 +10,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = ("group_id")
+        fields = ("group_id",)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -20,7 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ("cat_id")
+        fields = ("cat_id",)
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
@@ -30,7 +30,7 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubCategory
-        fields = ("subcat_id")
+        fields = ("subcat_id",)
 
 
 class SKUSerializer(serializers.ModelSerializer):
@@ -39,14 +39,10 @@ class SKUSerializer(serializers.ModelSerializer):
     """
 
     group_id = serializers.CharField(
-        source="subcategory.category.group.sku_id"
+        source="subcategory.category.group.group_id"
     )
-    cat_id = serializers.CharField(
-        source="subcategory.category.cat_id"
-    )
-    subcat_id = serializers.CharField(
-        source="subcategory.subcat_id"
-    )
+    cat_id = serializers.CharField(source="subcategory.category.cat_id")
+    subcat_id = serializers.CharField(source="subcategory.subcat_id")
 
     class Meta:
         model = SKU
