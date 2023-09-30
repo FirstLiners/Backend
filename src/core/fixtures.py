@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase, APIClient
 
 from skus.models import Group, Category, SKU, SubCategory
+from stores.models import Store
 
 User = get_user_model()
 
@@ -101,4 +102,28 @@ class TestSKUFixture(TestUserFixture):
             sku_id="sku7_id",
             uom=1,
             subcategory=cls.subcat222,
+        )
+
+
+class TestStoreFixture(TestUserFixture):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.store1 = Store.objects.create(
+            store_id="store1_id",
+            city_id="city1_id",
+            division_code="division_1",
+            type_format_id=1,
+            type_loc_id=3,
+            type_size_id=3,
+            is_active=1,
+        )
+        cls.store2 = Store.objects.create(
+            store_id="store2_id",
+            city_id="city1_id",
+            division_code="division_2",
+            type_format_id=2,
+            type_loc_id=4,
+            type_size_id=3,
+            is_active=1,
         )

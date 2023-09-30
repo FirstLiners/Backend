@@ -18,6 +18,9 @@ class Group(models.Model):
     class Meta:
         verbose_name = "Группа товара"
         verbose_name_plural = "Группы товаров"
+        ordering = [
+            "group_id",
+        ]
 
     def __str__(self):
         return self.group_id
@@ -46,6 +49,9 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория товара"
         verbose_name_plural = "Категории товаров"
+        ordering = [
+            "cat_id",
+        ]
 
     def __str__(self):
         return self.cat_id
@@ -72,8 +78,11 @@ class SubCategory(models.Model):
     objects = SubCategoryManager()
 
     class Meta:
-        verbose_name = "Категория товара"
-        verbose_name_plural = "Категории товаров"
+        verbose_name = "Подкатегория товара"
+        verbose_name_plural = "Подкатегории товаров"
+        ordering = [
+            "subcat_id",
+        ]
 
     def __str__(self):
         return self.subcat_id
@@ -104,6 +113,9 @@ class SKU(models.Model):
     class Meta:
         verbose_name = "Товарная позиция"
         verbose_name_plural = "Товарные позиции"
+        ordering = [
+            "sku_id",
+        ]
 
     def __str__(self):
         return self.sku_id
