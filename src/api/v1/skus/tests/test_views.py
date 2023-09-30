@@ -34,7 +34,7 @@ class TestSKU(TestSKUFixture):
         )
         self.assertEqual(
             len(response.json()),
-            len(Group.objects.filter(group_id__icontains=param))
+            len(Group.objects.filter(group_id__icontains=param)),
         )
 
     def test_category_search(self):
@@ -44,7 +44,7 @@ class TestSKU(TestSKUFixture):
         )
         self.assertEqual(
             len(response.json()),
-            len(Category.objects.filter(cat_id__icontains=param))
+            len(Category.objects.filter(cat_id__icontains=param)),
         )
 
     def test_subcategory_search(self):
@@ -54,7 +54,7 @@ class TestSKU(TestSKUFixture):
         )
         self.assertEqual(
             len(response.json()),
-            len(SubCategory.objects.filter(subcat_id__icontains=param))
+            len(SubCategory.objects.filter(subcat_id__icontains=param)),
         )
 
     def test_sku_search(self):
@@ -64,7 +64,7 @@ class TestSKU(TestSKUFixture):
         )
         self.assertEqual(
             len(response.json()),
-            len(SKU.objects.filter(sku_id__icontains=param))
+            len(SKU.objects.filter(sku_id__icontains=param)),
         )
 
     def test_anon_client_has_no_access(self):
