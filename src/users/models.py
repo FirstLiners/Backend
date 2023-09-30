@@ -1,15 +1,14 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from django.contrib.auth.models import PermissionsMixin
-
 from .managers import UserManager
 
 
-class User(AbstractUser, PermissionsMixin):
+class User(AbstractUser):
     """
     Модель пользователя.
     """
+
     username = None
     email = models.EmailField(
         verbose_name="Адрес электронной почты",
