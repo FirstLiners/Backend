@@ -32,4 +32,5 @@ class SaleGetViewset(ListModelMixin, GenericViewSet):
             if sku_id:
                 queryset = queryset.filter(sku__sku_id__in=sku_id.split(","))
         return queryset
+
     serializer_class = SaleGetSerializer

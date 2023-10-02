@@ -24,10 +24,7 @@ class Forecast(models.Model):
         "Дата прогноза",
         auto_now_add=False,
     )
-    forecast_data = models.JSONField(
-        "Прогноз продаж по датам.",
-        default=dict
-    )
+    forecast_data = models.JSONField("Прогноз продаж по датам.", default=dict)
 
     objects = SaleForecastManager()
 

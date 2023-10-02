@@ -59,7 +59,8 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="forecast",
             constraint=models.UniqueConstraint(
-                fields=("store", "sku", "date"), name="double forecast (unique)"
+                fields=("store", "sku", "date"),
+                name="double forecast (unique)",
             ),
         ),
         migrations.AlterIndexTogether(

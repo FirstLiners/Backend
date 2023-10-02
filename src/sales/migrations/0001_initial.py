@@ -89,7 +89,8 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="sale",
             constraint=models.UniqueConstraint(
-                fields=("store", "sku", "date"), name="double sale info (unique)"
+                fields=("store", "sku", "date"),
+                name="double sale info (unique)",
             ),
         ),
         migrations.AlterIndexTogether(

@@ -10,7 +10,7 @@ from skus.models import SKU
 
 
 class Command(BaseCommand):
-    help = 'Импорт исторических сведений о продажах из csv файла.'
+    help = "Импорт исторических сведений о продажах из csv файла."
 
     def handle(self, *args, **kwargs):
         with open(
@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 "data",
                 "sales_df_train.csv",
             ),
-            encoding='utf-8'
+            encoding="utf-8",
         ) as data:
             for line in csv.DictReader(data):
                 if not Sale.objects.filter(
