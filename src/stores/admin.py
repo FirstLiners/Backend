@@ -12,5 +12,5 @@ class StoreAdmin(admin.ModelAdmin):
         "type_format_id",
         "type_loc_id",
         "type_size_id",
-        "is_active"
+        "is_active",
     ]

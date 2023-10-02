@@ -7,7 +7,7 @@ from stores.models import Store
 
 
 class Command(BaseCommand):
-    help = 'Импорт сведений о торговых центрах из csv файла.'
+    help = "Импорт сведений о торговых центрах из csv файла."
 
     def handle(self, *args, **kwargs):
         with open(
@@ -16,7 +16,7 @@ class Command(BaseCommand):
                 "data",
                 "st_df.csv",
             ),
-            encoding='utf-8'
+            encoding="utf-8",
         ) as data:
             for line in csv.DictReader(data):
                 if not Store.objects.filter(store_id=line["st_id"]).exists():

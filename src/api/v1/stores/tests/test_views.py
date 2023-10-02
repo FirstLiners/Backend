@@ -19,7 +19,7 @@ class TestSKU(TestStoreFixture):
         )
         self.assertEqual(
             len(response.json()),
-            len(Store.objects.filter(store_id__icontains=param))
+            len(Store.objects.filter(store_id__icontains=param)),
         )
 
     def test_anon_client_has_no_access(self):

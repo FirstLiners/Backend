@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "users",
     "skus",
     "stores",
+    "sales",
+    "forecasts",
 ]
 
 MIDDLEWARE = [
@@ -142,7 +144,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=100),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 

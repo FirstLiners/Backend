@@ -6,24 +6,40 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('skus', '0001_initial'),
+        ("skus", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='category',
-            options={'ordering': ['cat_id'], 'verbose_name': 'Категория товара', 'verbose_name_plural': 'Категории товаров'},
+            name="category",
+            options={
+                "ordering": ["cat_id"],
+                "verbose_name": "Категория товара",
+                "verbose_name_plural": "Категории товаров",
+            },
         ),
         migrations.AlterModelOptions(
-            name='group',
-            options={'ordering': ['group_id'], 'verbose_name': 'Группа товара', 'verbose_name_plural': 'Группы товаров'},
+            name="group",
+            options={
+                "ordering": ["group_id"],
+                "verbose_name": "Группа товара",
+                "verbose_name_plural": "Группы товаров",
+            },
         ),
         migrations.AlterModelOptions(
-            name='sku',
-            options={'ordering': ['sku_id'], 'verbose_name': 'Товарная позиция', 'verbose_name_plural': 'Товарные позиции'},
+            name="sku",
+            options={
+                "ordering": ["sku_id"],
+                "verbose_name": "Товарная позиция",
+                "verbose_name_plural": "Товарные позиции",
+            },
         ),
         migrations.AlterModelOptions(
-            name='subcategory',
-            options={'ordering': ['subcat_id'], 'verbose_name': 'Категория товара', 'verbose_name_plural': 'Категории товаров'},
+            name="subcategory",
+            options={
+                "ordering": ["subcat_id"],
+                "verbose_name": "Категория товара",
+                "verbose_name_plural": "Категории товаров",
+            },
         ),
     ]

@@ -7,26 +7,71 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Store',
+            name="Store",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('store_id', models.CharField(db_index=True, max_length=50, unique=True, verbose_name='Иентификатор магазина')),
-                ('city_id', models.CharField(max_length=50, verbose_name='Идентификатор города')),
-                ('division_code', models.CharField(max_length=50, verbose_name='Идентификатор дивизиона')),
-                ('type_format_id', models.PositiveIntegerField(verbose_name='Идентификатор формата магазина')),
-                ('type_loc_id', models.PositiveIntegerField(verbose_name='Тип локации магазина')),
-                ('type_size_id', models.PositiveIntegerField(verbose_name='Тип размера магазина')),
-                ('is_active', models.PositiveIntegerField(verbose_name='Активени ли магазин')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "store_id",
+                    models.CharField(
+                        db_index=True,
+                        max_length=50,
+                        unique=True,
+                        verbose_name="Иентификатор магазина",
+                    ),
+                ),
+                (
+                    "city_id",
+                    models.CharField(
+                        max_length=50, verbose_name="Идентификатор города"
+                    ),
+                ),
+                (
+                    "division_code",
+                    models.CharField(
+                        max_length=50, verbose_name="Идентификатор дивизиона"
+                    ),
+                ),
+                (
+                    "type_format_id",
+                    models.PositiveIntegerField(
+                        verbose_name="Идентификатор формата магазина"
+                    ),
+                ),
+                (
+                    "type_loc_id",
+                    models.PositiveIntegerField(
+                        verbose_name="Тип локации магазина"
+                    ),
+                ),
+                (
+                    "type_size_id",
+                    models.PositiveIntegerField(
+                        verbose_name="Тип размера магазина"
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.PositiveIntegerField(
+                        verbose_name="Активени ли магазин"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Торговый центр',
-                'verbose_name_plural': 'Торговые центры',
-                'ordering': ['store_id'],
+                "verbose_name": "Торговый центр",
+                "verbose_name_plural": "Торговые центры",
+                "ordering": ["store_id"],
             },
         ),
     ]

@@ -7,7 +7,7 @@ from skus.models import Category, Group, SKU, SubCategory
 
 
 class Command(BaseCommand):
-    help = 'Импорт сведений о товарной иерархии из csv файла.'
+    help = "Импорт сведений о товарной иерархии из csv файла."
 
     def handle(self, *args, **kwargs):
         with open(
@@ -16,7 +16,7 @@ class Command(BaseCommand):
                 "data",
                 "pr_df.csv",
             ),
-            encoding='utf-8'
+            encoding="utf-8",
         ) as data:
             for line in csv.DictReader(data):
                 if not SKU.objects.filter(sku_id=line["pr_sku_id"]).exists():
@@ -31,7 +31,7 @@ class Command(BaseCommand):
                             cat_id=line["pr_cat_id"],
                             group=Group.objects.get(
                                 group_id=line["pr_group_id"]
-                            )
+                            ),
                         )
                     if not SubCategory.objects.filter(
                         subcat_id=line["pr_subcat_id"]
@@ -40,7 +40,7 @@ class Command(BaseCommand):
                             subcat_id=line["pr_subcat_id"],
                             category=Category.objects.get(
                                 cat_id=line["pr_cat_id"]
-                            )
+                            ),
                         )
                     SKU.objects.create(
                         sku_id=line["pr_sku_id"],
