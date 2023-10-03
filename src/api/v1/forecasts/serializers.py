@@ -8,14 +8,14 @@ class ForecastGetSerializer(serializers.ModelSerializer):
     Сериализатор для прогнозов по продажам.
     """
 
-    sku_id = serializers.CharField(source="sku.sku_id")
-    store_id = serializers.CharField(source="store.store_id")
+    sku = serializers.CharField(source="sku__sku_id")
+    store = serializers.CharField(source="store__store_id")
 
     class Meta:
         model = Forecast
         fields = (
-            "store_id",
-            "sku_id",
+            "store",
+            "sku",
             "date",
             "forecast_data",
         )
