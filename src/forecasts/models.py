@@ -8,6 +8,8 @@ from stores.models import Store
 class Forecast(models.Model):
     """
     Прогноз прожаж товара в супермаркете на 14 дней.
+    Поля next_day_real_sale и next_day_forecast добавлены для
+    сокращения времени построения отчета по статистике прогнозов.
     """
 
     store = models.ForeignKey(
@@ -25,6 +27,13 @@ class Forecast(models.Model):
         auto_now_add=False,
     )
     forecast_data = models.JSONField("Прогноз продаж по датам.", default=dict)
+    next_day_real_sale = models.PositiveIntegerField(
+        "Прогноз на следующий день",
+        null=True,
+    )
+    next_day_forecast = models.PositiveIntegerField(
+        "Реальные продажи на следующий день"
+    )
 
     objects = SaleForecastManager()
 

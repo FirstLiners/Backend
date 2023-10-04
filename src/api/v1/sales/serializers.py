@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import serializers
 
 from sales.models import Sale
@@ -55,3 +56,29 @@ class SaleCreateSerializer(serializers.ModelSerializer):
         sku = SKU.objects.get(sku_id=sku_id)
         sale = Sale.objects.create(store=store, sku=sku, **validated_data)
         return sale
+
+    def validate(self, data):
+        if not Store.objects.filter(store_id=data["store_id"]).exists():
+            raise serializers.ValidationError(
+                "Торговый центр с таким store_id не существует в системе."
+            )
+        if not SKU.objects.filter(sku_id=data["sku_id"]).exists():
+            raise serializers.ValidationError(
+                "Товар с таким sku_id не существует в системе."
+            )
+        if data["date"] > timezone.now().date():
+            raise serializers.ValidationError(
+                "Дата, на которую вводится продажа, позже текущей."
+            )
+        if Sale.objects.filter(
+            store__store_id=data["store_id"],
+            sku__sku_id=data["sku_id"],
+            date=data["date"],
+        ).exists():
+            raise serializers.ValidationError(
+                (
+                    "Информация о продаже данного товара в данном "
+                    "ТЦ на данную дату уже есть в системе."
+                )
+            )
+        return data

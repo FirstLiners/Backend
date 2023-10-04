@@ -1,4 +1,8 @@
-from django_filters import FilterSet, ModelMultipleChoiceFilter
+from django_filters import (
+    FilterSet,
+    ModelChoiceFilter,
+    ModelMultipleChoiceFilter,
+)
 
 from forecasts.models import Forecast
 from stores.models import Store
@@ -10,7 +14,7 @@ class ForecastFilter(FilterSet):
     Фильтр для прогнозов.
     """
 
-    store_id = ModelMultipleChoiceFilter(
+    store_id = ModelChoiceFilter(
         field_name="store__store_id",
         to_field_name="store_id",
         queryset=Store.objects.all(),
@@ -49,3 +53,15 @@ class ForecastFilter(FilterSet):
             "cat_id",
             "group_id",
         ]
+
+
+class StatisticsFilter(ForecastFilter):
+    """
+    Фильтр для статистики по прогнозам.
+    """
+
+    store_id = ModelMultipleChoiceFilter(
+        field_name="store__store_id",
+        to_field_name="store_id",
+        queryset=Store.objects.all(),
+    )

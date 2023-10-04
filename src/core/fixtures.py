@@ -1,8 +1,10 @@
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase, APIClient
 
 from skus.models import Group, Category, SKU, SubCategory
 from stores.models import Store
+from sales.models import Sale
 
 User = get_user_model()
 
@@ -126,4 +128,20 @@ class TestStoreFixture(TestUserFixture):
             type_loc_id=4,
             type_size_id=3,
             is_active=1,
+        )
+
+
+class TestSalesFixture(TestStoreFixture, TestSKUFixture):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.sale1 = Sale.objects.create(
+            store=cls.store1,
+            sku=cls.sku1,
+            date=timezone.now.date(),
+            sales_type_id=1,
+            sales_in_units=1.000,
+            promo_sales_in_units=1.000,
+            sales_in_rub=103.00,
+            promo_sales_in_rub=103.00,
         )
