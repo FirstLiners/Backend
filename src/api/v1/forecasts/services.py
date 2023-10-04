@@ -1,3 +1,4 @@
+from io import BytesIO
 from tempfile import NamedTemporaryFile
 import openpyxl
 
@@ -31,8 +32,8 @@ def forecast_file_creation(forecasts):
         for k, v in forecast["forecast_data"].items():
             data.append(v)
         active_list.append(data)
+
         with NamedTemporaryFile() as tmp:
             file.save(tmp.name)
-            tmp.seek(0)
-            stream = tmp.read()
-    return stream
+            output = BytesIO(tmp.read())
+            return output
