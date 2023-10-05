@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "stores",
     "sales",
     "forecasts",
+    "sales",
+    "forecasts",
 ]
 
 MIDDLEWARE = [
@@ -53,7 +55,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
-
 # CORS_ORIGIN_ALLOW_ALL = True # This allows all origin hosts
 
 CORS_ALLOWED_ORIGINS = [
@@ -165,7 +166,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=100),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
