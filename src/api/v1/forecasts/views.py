@@ -37,6 +37,7 @@ class ForecastViewset(ListModelMixin, GenericViewSet):
             "sku__subcategory__subcat_id",
             "sku__subcategory__category__cat_id",
             "sku__subcategory__category__group__group_id",
+            "sku__uom",
             "forecast_data",
         ).annotate(date=Max("date"))
 

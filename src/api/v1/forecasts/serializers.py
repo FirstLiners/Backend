@@ -19,6 +19,7 @@ class ForecastSerializer(serializers.ModelSerializer):
         source="sku__subcategory__subcat_id", read_only=True
     )
     sku = serializers.CharField(source="sku__sku_id")
+    uom = serializers.CharField(source="sku__uom", read_only=True)
 
     class Meta:
         model = Forecast

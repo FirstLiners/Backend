@@ -17,6 +17,7 @@ def forecast_file_creation(forecasts):
         "Категория товара",
         "Подкатегория товара",
         "Товар",
+        "Ед.измерения",
     ]
     for i in range(1, 15):
         column_titles.append(f"День{i}")
@@ -28,6 +29,7 @@ def forecast_file_creation(forecasts):
             forecast["sku__subcategory__category__cat_id"],
             forecast["sku__subcategory__subcat_id"],
             forecast["sku__sku_id"],
+            forecast["sku__uom"],
         ]
         for k, v in forecast["forecast_data"].items():
             data.append(v)
