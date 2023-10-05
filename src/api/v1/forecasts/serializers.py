@@ -3,18 +3,30 @@ from rest_framework import serializers
 from forecasts.models import Forecast
 
 
-class ForecastInfoSerializer(serializers.ModelSerializer):
+class ForecastSerializer(serializers.ModelSerializer):
     """
     Сериализатор для вывода прогноз по продажам.
     """
 
-    sku = serializers.CharField(source="sku__sku_id")
     store = serializers.CharField(source="store__store_id")
+    group = serializers.CharField(
+        source="sku__subcategory__category__group__group_id", read_only=True
+    )
+    category = serializers.CharField(
+        source="sku__subcategory__category__cat_id", read_only=True
+    )
+    subcategory = serializers.CharField(
+        source="sku__subcategory__subcat_id", read_only=True
+    )
+    sku = serializers.CharField(source="sku__sku_id")
 
     class Meta:
         model = Forecast
         fields = (
             "store",
+            "group",
+            "category",
+            "subcategory",
             "sku",
             "date",
             "forecast_data",
@@ -25,6 +37,7 @@ class StatisticsListSerializer(serializers.ListSerializer):
     """
     Сериализатор для вывода статистики по прогнозам,
     объединенной по паре товар - магазин.
+    Пока не требуется :(
     """
 
     def to_representation(self, data):
@@ -66,17 +79,33 @@ class StatisticsSerializer(serializers.Serializer):
     """
 
     store = serializers.CharField(source="store__store_id", read_only=True)
+    group = serializers.CharField(
+        source="sku__subcategory__category__group__group_id", read_only=True
+    )
+    category = serializers.CharField(
+        source="sku__subcategory__category__cat_id", read_only=True
+    )
+    subcategory = serializers.CharField(
+        source="sku__subcategory__subcat_id", read_only=True
+    )
     sku = serializers.CharField(source="sku__sku_id", read_only=True)
-    forecast = serializers.IntegerField(read_only=True)
+    uom = serializers.CharField(source="sku__uom", read_only=True)
     real_sale = serializers.IntegerField(read_only=True)
+    forecast = serializers.IntegerField(read_only=True)
+    difference = serializers.IntegerField(read_only=True)
     period = serializers.IntegerField(read_only=True)
+    wape = serializers.FloatField(read_only=True)
 
     class Meta:
         fields = (
             "store",
+            "group",
+            "category",
+            "subcategory",
             "sku",
             "real_sale",
             "forecast",
             "period",
+            "difference",
+            "wape",
         )
-        list_serializer_class = StatisticsListSerializer
