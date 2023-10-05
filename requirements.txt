@@ -7,5 +7,6 @@ pre_commit~=3.4.0
 djangorestframework-simplejwt~=5.3.0
 drf-spectacular~=0.26.5
 django-filter~=23.3
+django-cors-headers~=4.2.0
 black~=23.9.1
 openpyxl~=3.1.2
