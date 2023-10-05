@@ -33,13 +33,11 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
-    'corsheaders',
+    "corsheaders",
     "drf_spectacular",
     "users",
     "skus",
     "stores",
-    "sales",
-    "forecasts",
     "sales",
     "forecasts",
 ]
@@ -52,8 +50,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 # CORS_ORIGIN_ALLOW_ALL = True # This allows all origin hosts
 
@@ -72,6 +70,7 @@ CORS_ALLOW_METHODS = (
     'POST',
     'PUT',
 )
+
 
 ROOT_URLCONF = "config.urls"
 
@@ -166,7 +165,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=100),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
