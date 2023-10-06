@@ -1,11 +1,16 @@
+from datetime import timedelta
+
+from django.utils import timezone
 from rest_framework import serializers
 
 from forecasts.models import Forecast
+from stores.models import Store
+from skus.models import SKU
 
 
 class ForecastSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для вывода прогноз по продажам.
+    Сериализатор для вывода прогнозов.
     """
 
     store = serializers.CharField(source="store__store_id")
@@ -33,6 +38,69 @@ class ForecastSerializer(serializers.ModelSerializer):
             "forecast_data",
             "uom",
         )
+
+
+class ForecastCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для создания прогнозов.
+    """
+
+    store = serializers.CharField()
+    sku = serializers.CharField()
+
+    class Meta:
+        model = Forecast
+        fields = (
+            "store",
+            "sku",
+            "date",
+            "forecast_data",
+        )
+
+    def create(self, validated_data):
+        store_id = validated_data.pop("store")
+        sku_id = validated_data.pop("sku")
+        date = validated_data.pop("date")
+        next_date = str((date + timedelta(days=1)))
+        forecast_data = validated_data.pop("forecast_data")
+        next_day_forecast = forecast_data[next_date]
+        store = Store.objects.get(store_id=store_id)
+        sku = SKU.objects.get(sku_id=sku_id)
+        forecast = Forecast.objects.create(
+            store=store,
+            sku=sku,
+            next_day_forecast=next_day_forecast,
+            date=date,
+            forecast_data=forecast_data,
+            **validated_data,
+        )
+        return forecast
+
+    def validate(self, data):
+        if not Store.objects.filter(store_id=data["store"]).exists():
+            raise serializers.ValidationError(
+                "Торговый центр с таким store_id не существует в системе."
+            )
+        if not SKU.objects.filter(sku_id=data["sku"]).exists():
+            raise serializers.ValidationError(
+                "Товар с таким sku_id не существует в системе."
+            )
+        if data["date"] > timezone.now().date():
+            raise serializers.ValidationError(
+                "Дата, на которую вводится прогоноз, позже текущей."
+            )
+        if Forecast.objects.filter(
+            store__store_id=data["store"],
+            sku__sku_id=data["sku"],
+            date=data["date"],
+        ).exists():
+            raise serializers.ValidationError(
+                (
+                    "Прогноз для данного товара в данном "
+                    "ТЦ на данную дату уже есть в системе."
+                )
+            )
+        return data
 
 
 class StatisticsListSerializer(serializers.ListSerializer):

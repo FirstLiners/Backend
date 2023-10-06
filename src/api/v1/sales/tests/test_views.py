@@ -42,7 +42,6 @@ class TestSale(TestSalesFixture):
             "sales_in_rub": "103.00",
             "promo_sales_in_rub": "103.00",
         }
-
         response = self.user_client.post(reverse("sales-list"), data=data)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 

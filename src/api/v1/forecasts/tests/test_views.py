@@ -1,6 +1,9 @@
+from datetime import timedelta
+
 from http import HTTPStatus
 
 from django.urls import reverse
+from django.utils import timezone
 
 from core.fixtures import TestForecastsFixture
 
@@ -31,6 +34,25 @@ class TestForecasts(TestForecastsFixture):
             len(response_2.data),
             len(self.frcst_query.filter(store__store_id=self.store1.store_id)),
         )
+
+    def test_post_forecasts(self):
+        forecast_data = {}
+        for i in range(1, 15):
+            forecast_data[str(timezone.now().date() + timedelta(days=i))] = i
+        data = [
+            {
+                "store": self.store1.store_id,
+                "sku": self.sku6.sku_id,
+                "date": timezone.now().date(),
+                "forecast_data": forecast_data,
+            }
+        ]
+        response = self.user_client.post(
+            reverse("load_forecasts-list"),
+            data=data,
+            format="json",
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_anon_clients_no_pasaran(self):
         response = self.anon_client.get(reverse("forecasts-list"))

@@ -5,23 +5,82 @@ from django.db.models.functions import Abs
 from django.http import HttpResponse
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+    OpenApiExample,
+)
+from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.mixins import ListModelMixin
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from forecasts.models import Forecast
 
 from .filters import ForecastFilter, StatisticsFilter
-from .serializers import ForecastSerializer, StatisticsSerializer
+from .serializers import (
+    ForecastCreateSerializer,
+    ForecastSerializer,
+    StatisticsSerializer,
+)
 from .services import forecast_file_creation, statistics_file_creation
+
+
+@extend_schema(tags=["Upload Forecasts"])
+@extend_schema_view(
+    create=extend_schema(
+        summary="Загрузка данных по прогнозам",
+        examples=[
+            OpenApiExample(
+                "Пример загрузки данных",
+                value=[
+                    {
+                        "store": "084a8a9aa8cced9175bd07bc44998e75",
+                        "sku": "002c3a40ac50dc870f1ff386f11f5bae",
+                        "date": "2023-10-05",
+                        "forecast_data": {
+                            "2023-10-03": 1,
+                            "2023-10-04": 3,
+                            "2023-10-05": 7,
+                            "2023-10-06": 9,
+                            "2023-10-07": 0,
+                            "2023-10-08": 1,
+                            "2023-10-09": 3,
+                            "2023-10-10": 7,
+                            "2023-10-11": 9,
+                            "2023-10-12": 0,
+                            "2023-10-13": 1,
+                            "2023-10-14": 1,
+                            "2023-10-15": 3,
+                        },
+                    },
+                ],
+                status_codes=[str(status.HTTP_201_CREATED)],
+            ),
+        ],
+    ),
+)
+class ForecastPostViewSet(CreateModelMixin, GenericViewSet):
+    """
+    Вьюсет для загрузки прогнозов.
+    """
+
+    serializer_class = ForecastCreateSerializer
+    queryset = Forecast.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = ForecastCreateSerializer(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data)
 
 
 @extend_schema(tags=["Forecast Info"])
 @extend_schema_view(
     list=extend_schema(summary="Информация о прогнозах продаж товара в ТЦ"),
 )
-class ForecastViewset(ListModelMixin, GenericViewSet):
+class ForecastViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
     """
     Вьюсет для вывода прогноза продаж.
     """
