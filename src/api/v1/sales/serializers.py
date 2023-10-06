@@ -1,6 +1,9 @@
+from datetime import timedelta
+
 from django.utils import timezone
 from rest_framework import serializers
 
+from forecasts.models import Forecast
 from sales.models import Sale
 from skus.models import SKU
 from stores.models import Store
@@ -55,6 +58,15 @@ class SaleCreateSerializer(serializers.ModelSerializer):
         store = Store.objects.get(store_id=store_id)
         sku = SKU.objects.get(sku_id=sku_id)
         sale = Sale.objects.create(store=store, sku=sku, **validated_data)
+        forecasts = Forecast.objects.filter(
+            store=sale.store,
+            sku=sale.sku,
+            date=sale.date - timedelta(days=1),
+        )
+        if forecasts.exists():
+            forecast = forecasts.first()
+            forecast.next_day_real_sale = sale.sales_in_units
+            forecast.save()
         return sale
 
     def validate(self, data):

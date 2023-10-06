@@ -28,11 +28,11 @@ class Forecast(models.Model):
     )
     forecast_data = models.JSONField("Прогноз продаж по датам.", default=dict)
     next_day_real_sale = models.PositiveIntegerField(
-        "Прогноз на следующий день",
+        "Реальные продажи на следующий день",
         null=True,
     )
     next_day_forecast = models.PositiveIntegerField(
-        "Реальные продажи на следующий день"
+        "Прогноз на следующий день"
     )
 
     objects = SaleForecastManager()
