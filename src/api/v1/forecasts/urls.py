@@ -7,7 +7,7 @@ forecasts_router = DefaultRouter()
 
 forecasts_router.register("forecasts", ForecastViewset, basename="forecasts")
 forecasts_router.register(
-    "statistics", StatisticsViewset, basename="tatistics"
+    "statistics", StatisticsViewset, basename="statistics"
 )
 
 urlpatterns = [

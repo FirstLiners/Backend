@@ -1,7 +1,11 @@
+from datetime import timedelta
+
+from django.db.models import Max
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase, APIClient
 
+from forecasts.models import Forecast
 from skus.models import Group, Category, SKU, SubCategory
 from stores.models import Store
 from sales.models import Sale
@@ -14,10 +18,10 @@ class TestUserFixture(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User(
-            email="vasya@vasya.ru",
-            password="vasya123",
+            email="user123@user.ru",
+            password="user123",
         )
-        cls.user.set_password("vasya123")
+        cls.user.set_password("user123")
         cls.user.save()
         cls.user_client = APIClient()
         cls.user_client.force_authenticate(cls.user)
@@ -107,7 +111,7 @@ class TestSKUFixture(TestUserFixture):
         )
 
 
-class TestStoreFixture(TestUserFixture):
+class TestStoreFixture(TestSKUFixture):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -131,17 +135,60 @@ class TestStoreFixture(TestUserFixture):
         )
 
 
-class TestSalesFixture(TestStoreFixture, TestSKUFixture):
+class TestSalesFixture(TestStoreFixture):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.sale1 = Sale.objects.create(
             store=cls.store1,
             sku=cls.sku1,
-            date=timezone.now.date(),
+            date=timezone.now().date(),
             sales_type_id=1,
             sales_in_units=1.000,
             promo_sales_in_units=1.000,
             sales_in_rub=103.00,
             promo_sales_in_rub=103.00,
+        )
+        cls.sale2 = Sale.objects.create(
+            store=cls.store2,
+            sku=cls.sku2,
+            date=timezone.now().date(),
+            sales_type_id=1,
+            sales_in_units=3.000,
+            promo_sales_in_units=3.000,
+            sales_in_rub=703.00,
+            promo_sales_in_rub=703.00,
+        )
+
+
+class TestForecastsFixture(TestSalesFixture):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.frcst_query = Forecast.objects.values(
+            "store__store_id",
+            "sku__sku_id",
+            "sku__subcategory__subcat_id",
+            "sku__subcategory__category__cat_id",
+            "sku__subcategory__category__group__group_id",
+            "sku__uom",
+            "forecast_data",
+        ).annotate(date=Max("date"))
+        data = {}
+        for i in range(1, 15):
+            data[str(timezone.now().date() + timedelta(days=i))] = i
+
+        cls.forecast1 = Forecast.objects.create(
+            store=cls.store1,
+            sku=cls.sku1,
+            date=timezone.now().date(),
+            forecast_data=data,
+            next_day_forecast=1,
+        )
+        cls.forecast2 = Forecast.objects.create(
+            store=cls.store2,
+            sku=cls.sku2,
+            date=timezone.now().date(),
+            forecast_data=data,
+            next_day_forecast=1,
         )

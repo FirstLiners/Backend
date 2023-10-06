@@ -85,9 +85,9 @@ class StatisticsViewset(ListModelMixin, GenericViewSet):
 
     def get_queryset(self):
         Periods = {
-            "day": 14,
-            "week": 49,
-            "month": 365,
+            "day": 16,
+            "week": 51,
+            "month": 367,
         }
         queryset = Forecast.objects.none()
         if self.request.method == "GET":
@@ -117,8 +117,8 @@ class StatisticsViewset(ListModelMixin, GenericViewSet):
                         (
                             Sum(
                                 Abs(
-                                    F("next_day_real_sale")
-                                    - F("next_day_forecast")
+                                    F("next_day_real_sale") * 100
+                                    - F("next_day_forecast") * 100
                                 )
                             )
                             / Sum("next_day_real_sale")
@@ -126,7 +126,7 @@ class StatisticsViewset(ListModelMixin, GenericViewSet):
                     ),
                 )
                 .filter(
-                    date__lte=timezone.now().date(),
+                    date__lte=timezone.now().date() - timedelta(days=2),
                     date__gte=timezone.now().date()
                     - timedelta(days=Periods.get(period, Periods["day"])),
                 )

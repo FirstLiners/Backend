@@ -31,6 +31,7 @@ class ForecastSerializer(serializers.ModelSerializer):
             "sku",
             "date",
             "forecast_data",
+            "uom",
         )
 
 
