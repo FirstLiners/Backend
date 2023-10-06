@@ -4,6 +4,7 @@ from django.utils import timezone
 from rest_framework import serializers
 
 from forecasts.models import Forecast
+from sales.models import Sale
 from stores.models import Store
 from skus.models import SKU
 
@@ -74,6 +75,15 @@ class ForecastCreateSerializer(serializers.ModelSerializer):
             forecast_data=forecast_data,
             **validated_data,
         )
+        if forecast.date < timezone.now().date():
+            sales = Sale.objects.filter(
+                sku=forecast.sku,
+                store=forecast.store,
+                date=forecast.date + timedelta(days=1),
+            )
+            if sales.exists():
+                forecast.next_day_real_sale = sales.first().sales_in_units
+                forecast.save()
         return forecast
 
     def validate(self, data):
