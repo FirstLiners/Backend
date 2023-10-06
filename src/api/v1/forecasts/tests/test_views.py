@@ -21,11 +21,7 @@ class TestForecasts(TestForecastsFixture):
         )
         self.assertEqual(
             len(response_1.data),
-            len(
-                self.frcst_query.filter(
-                    sku__sku_id=self.sku1.sku_id
-                )
-            ),
+            len(self.frcst_query.filter(sku__sku_id=self.sku1.sku_id)),
         )
 
         response_2 = self.user_client.get(
@@ -33,11 +29,7 @@ class TestForecasts(TestForecastsFixture):
         )
         self.assertEqual(
             len(response_2.data),
-            len(
-                self.frcst_query.filter(
-                    store__store_id=self.store1.store_id
-                )
-            ),
+            len(self.frcst_query.filter(store__store_id=self.store1.store_id)),
         )
 
     def test_anon_clients_no_pasaran(self):
