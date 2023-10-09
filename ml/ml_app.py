@@ -34,10 +34,18 @@ def setup_logging():
 
 
 def get_address(resource):
+    """
+    Создание url.
+    """
+
     return "http://" + api_host + ":" + api_port + "/" + resource
 
 
 def get_token():
+    """
+    Аутентификация. Получение токена.
+    """
+
     token_url = get_address(URL_TOKEN)
     access_data = {
         "email": ml_user_email,
@@ -50,6 +58,10 @@ def get_token():
 
 
 def get_stores_skus():
+    """
+    Получение пар това-магазин, по которым нужно сделать прогноз.
+    """
+
     token = get_token()
     stores_skus_url = get_address(URL_STORES_SKUS)
     resp = requests.get(
@@ -64,9 +76,14 @@ def get_stores_skus():
 
 
 def main(today=date.today()):
+    """
+    Функция, делающая прогноз от заданной даты на 14 дней
+    вперед по парам товар-магазин.
+    На данный момент установлена заглушка.
+    """
+
     stores_skus = get_stores_skus()
     result = []
-    # Здесь вызывается функция прогноза
     for i in stores_skus:
         data = {
             "store": i["store"],
