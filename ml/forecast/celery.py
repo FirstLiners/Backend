@@ -14,6 +14,6 @@ def make_forecast():
 app.conf.beat_schedule = {
     "make_forecast_every_night": {
         "task": "make_forecast",
-        "schedul": crontab(hour=1, minute=16)
+        "schedul": crontab(hour=1, minute=16),
     }
 }

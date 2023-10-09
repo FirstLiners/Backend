@@ -11,5 +11,11 @@ class ForecastAdmin(admin.ModelAdmin):
 
 @admin.register(StoreSKU)
 class StoreSKUAdmin(admin.ModelAdmin):
-    search_fields = ["store__store_id", "sku__sku_id",]
-    list_display = ["store", "sku",]
+    search_fields = [
+        "store__store_id",
+        "sku__sku_id",
+    ]
+    list_display = [
+        "store",
+        "sku",
+    ]

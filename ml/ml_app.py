@@ -54,7 +54,7 @@ def get_stores_skus():
     stores_skus_url = get_address(URL_STORES_SALES)
     resp = requests.get(
         stores_skus_url,
-        headers={'Authorization': f'Bearer {token}'},
+        headers={"Authorization": f"Bearer {token}"},
         timeout=3,
     )
     if resp.status_code != 200:
@@ -85,15 +85,15 @@ def main(today=date.today()):
                 "2023-10-12": 0,
                 "2023-10-13": 1,
                 "2023-10-14": 1,
-                "2023-10-15": 3
-            }
+                "2023-10-15": 3,
+            },
         }
         result.append(data)
     token = get_token()
     requests.post(
         get_address(URL_FORECAST),
         json=result,
-        headers={'Authorization': f'Bearer {token}'},
+        headers={"Authorization": f"Bearer {token}"},
     )
 
 
