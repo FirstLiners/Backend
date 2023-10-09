@@ -74,8 +74,4 @@ class SkuFilter(FilterSet):
 
     class Meta:
         model = SKU
-        fields = [
-            "group_id",
-            "cat_id",
-            "subcat_id"
-        ]
+        fields = ["group_id", "cat_id", "subcat_id"]

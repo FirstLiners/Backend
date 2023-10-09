@@ -10,7 +10,7 @@ if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 
-URL_STORES_SALES = "api/v1/forecast_data/"
+URL_STORES_SKUS = "api/v1/forecast_data/"
 URL_FORECAST = "api/v1/load_forecasts/"
 URL_TOKEN = "api/v1/users/token/"
 
@@ -51,7 +51,7 @@ def get_token():
 
 def get_stores_skus():
     token = get_token()
-    stores_skus_url = get_address(URL_STORES_SALES)
+    stores_skus_url = get_address(URL_STORES_SKUS)
     resp = requests.get(
         stores_skus_url,
         headers={"Authorization": f"Bearer {token}"},

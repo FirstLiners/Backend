@@ -28,7 +28,7 @@ class SKUViewSet(ListModelMixin, GenericViewSet):
     serializer_class = SKUSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ["sku_id"]
-    filterset = SkuFilter
+    filterset_class = SkuFilter
 
 
 @extend_schema(tags=["Groups"])

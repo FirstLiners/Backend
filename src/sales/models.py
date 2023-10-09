@@ -52,7 +52,7 @@ class Sale(models.Model):
 
     class Meta:
         verbose_name = "Продажа товара в супермаркете за сутки"
-        verbose_name_plural = "Продажи товаров в супермаркетах за посуточно"
+        verbose_name_plural = "Продажи товаров в супермаркетах посуточно"
         ordering = ["store", "sku", "date"]
         index_together = [
             ["store", "sku", "date"],

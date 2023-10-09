@@ -33,6 +33,22 @@ services:
     depends_on:
       - backend
 
+  redis:
+    image: redis:alpine
+    ports:
+     - "6379:6379"
+    depends_on:
+      - nginx
+
+  ml:
+    build: ./ml
+    container_name: lenta_ml
+    restart: always
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
 volumes:
   lenta_db_value:
   lenta_static_value:

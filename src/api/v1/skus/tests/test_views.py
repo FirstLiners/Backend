@@ -89,6 +89,31 @@ class TestSKU(TestSKUFixture):
             len(SKU.objects.filter(sku_id__icontains=param)),
         )
 
+    def test_sku_filter(self):
+        response = self.user_client.get(
+            reverse("skus-list") + f"?group_id={self.group1.group_id}"
+        )
+        self.assertEqual(
+            len(response.json()),
+            len(
+                SKU.objects.filter(
+                    subcategory__category__group__group_id=self.group1.group_id
+                )
+            ),
+        )
+
+        response_2 = self.user_client.get(
+            reverse("skus-list") + f"?cat_id={self.cat11.cat_id}"
+        )
+        self.assertEqual(
+            len(response_2.json()),
+            len(
+                SKU.objects.filter(
+                    subcategory__category__cat_id=self.cat11.cat_id
+                )
+            ),
+        )
+
     def test_anon_client_has_no_access(self):
         response = self.anon_client.get(reverse("groups-list"))
         self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED)
