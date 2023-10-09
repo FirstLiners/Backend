@@ -54,3 +54,45 @@ class Forecast(models.Model):
 
     def __str__(self):
         return f"{self.date}: {self.store.store_id} - {self.sku.sku_id}"
+
+
+class StoreSKU(models.Model):
+    """
+    Модель для связи магазинов и товаров.
+    """
+
+    store = models.ForeignKey(
+        Store,
+        on_delete=models.PROTECT,
+        related_name="skus",
+        verbose_name="Торговый центр",
+    )
+    sku = models.ForeignKey(
+        SKU,
+        on_delete=models.PROTECT,
+        related_name="stores",
+        verbose_name="Товар",
+    )
+    is_active = models.BooleanField(
+        "Нужен прогноз",
+        default=True,
+    )
+
+    objects = SaleForecastManager()
+
+    class Meta:
+        verbose_name = "Товар магазина"
+        verbose_name_plural = "Товары магазинов"
+        ordering = ["store", "sku"]
+        index_together = [
+            ["store", "sku"],
+        ]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["store", "sku"],
+                name="double store&sku (unique)",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.store} - {self.sku}"

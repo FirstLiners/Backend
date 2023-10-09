@@ -16,13 +16,14 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from forecasts.models import Forecast
+from forecasts.models import Forecast, StoreSKU
 
 from .filters import ForecastFilter, StatisticsFilter
 from .serializers import (
     ForecastCreateSerializer,
     ForecastSerializer,
     StatisticsSerializer,
+    StoreSKUSerializer,
 )
 from .services import forecast_file_creation, statistics_file_creation
 
@@ -217,3 +218,18 @@ class StatisticsViewset(ListModelMixin, GenericViewSet):
                 "Content-Disposition": 'attachment; filename="statistics.xls"',
             },
         )
+
+
+@extend_schema(tags=["Stores&skus"])
+@extend_schema_view(
+    list=extend_schema(
+        summary="Пары магазин-товар, покоторым нужно сделать прогноз"
+    ),
+)
+class StoreSKUViewSet(ListModelMixin, GenericViewSet):
+    """
+    Вьюсет для пар магазин/товар, по которым нужн прогноз.
+    """
+
+    serializer_class = StoreSKUSerializer
+    queryset = StoreSKU.objects.filter(is_active=True)
