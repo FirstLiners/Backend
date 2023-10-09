@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  lenta_db:
+    image: postgres:13.0-alpine
+    container_name: lenta_db
+    volumes:
+      - lenta_db_value:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  backend:
+    build: ./src
+    container_name: backend
+    restart: always
+    volumes:
+      - lenta_static_value:/app/static/
+    ports:
+     - "8000:8000"
+    depends_on:
+      - lenta_db
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:1.21.3-alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - lenta_static_value:/var/html/static/
+    depends_on:
+      - backend
+
+  redis:
+    image: redis:alpine
+    ports:
+     - "6379:6379"
+    depends_on:
+      - nginx
+
+  ml:
+    build: ./ml
+    container_name: lenta_ml
+    restart: always
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
+volumes:
+  lenta_db_value:
+  lenta_static_value:
