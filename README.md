@@ -64,3 +64,4 @@ docker-compose exec backend python manage.py upload_pairs
 
 ## Команда проекта:
 - Пеньтюк Павел (github: https://github.com/PentiukPavel)
+- Юрий (github: https://github.com/uyriq)
