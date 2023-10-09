@@ -15,7 +15,7 @@ if os.path.exists(dotenv_path):
 
 SECRET_KEY = os.getenv("SECRET_KEY", "40r-my-5&cr&+k#y")
 
-DEBUG = True
+DEBUG = False
 
 if "test" in sys.argv:
     ALLOWED_HOSTS = ["testserver"]
