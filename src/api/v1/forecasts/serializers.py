@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.utils import timezone
 from rest_framework import serializers
 
-from forecasts.models import Forecast
+from forecasts.models import Forecast, StoreSKU
 from sales.models import Sale
 from stores.models import Store
 from skus.models import SKU
@@ -189,3 +189,16 @@ class StatisticsSerializer(serializers.Serializer):
             "difference",
             "wape",
         )
+
+
+class StoreSKUSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для пар товар/магазин, по которым нужен прогноз.
+    """
+
+    store = serializers.StringRelatedField(read_only=True)
+    sku = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = StoreSKU
+        fields = ["store", "sku"]

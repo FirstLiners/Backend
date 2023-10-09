@@ -1,0 +1,4 @@
+requests~=2.31.0
+python-dotenv~=1.0.0
+celery~=5.3.4
+Redis~=5.0.1

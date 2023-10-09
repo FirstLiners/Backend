@@ -16,18 +16,19 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from forecasts.models import Forecast
+from forecasts.models import Forecast, StoreSKU
 
-from .filters import ForecastFilter, StatisticsFilter
+from .filters import ForecastFilter, StatisticsFilter, StoreSKUFilter
 from .serializers import (
     ForecastCreateSerializer,
     ForecastSerializer,
     StatisticsSerializer,
+    StoreSKUSerializer,
 )
 from .services import forecast_file_creation, statistics_file_creation
 
 
-@extend_schema(tags=["Upload Forecasts"])
+@extend_schema(tags=["Forecasts"])
 @extend_schema_view(
     create=extend_schema(
         summary="Загрузка данных по прогнозам",
@@ -76,11 +77,11 @@ class ForecastPostViewSet(CreateModelMixin, GenericViewSet):
         return Response(serializer.data)
 
 
-@extend_schema(tags=["Forecast Info"])
+@extend_schema(tags=["Forecasts"])
 @extend_schema_view(
     list=extend_schema(summary="Информация о прогнозах продаж товара в ТЦ"),
 )
-class ForecastViewSet(CreateModelMixin, ListModelMixin, GenericViewSet):
+class ForecastViewSet(ListModelMixin, GenericViewSet):
     """
     Вьюсет для вывода прогноза продаж.
     """
@@ -217,3 +218,20 @@ class StatisticsViewset(ListModelMixin, GenericViewSet):
                 "Content-Disposition": 'attachment; filename="statistics.xls"',
             },
         )
+
+
+@extend_schema(tags=["Stores&Skus"])
+@extend_schema_view(
+    list=extend_schema(
+        summary="Пары магазин-товар, покоторым нужно сделать прогноз"
+    ),
+)
+class StoreSKUViewSet(ListModelMixin, GenericViewSet):
+    """
+    Вьюсет для пар магазин/товар, по которым нужн прогноз.
+    """
+
+    serializer_class = StoreSKUSerializer
+    queryset = StoreSKU.objects.filter(is_active=True)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = StoreSKUFilter

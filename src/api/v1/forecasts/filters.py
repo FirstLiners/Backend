@@ -4,7 +4,7 @@ from django_filters import (
     ModelMultipleChoiceFilter,
 )
 
-from forecasts.models import Forecast
+from forecasts.models import Forecast, StoreSKU
 from stores.models import Store
 from skus.models import Category, Group, SubCategory, SKU
 
@@ -65,3 +65,19 @@ class StatisticsFilter(ForecastFilter):
         to_field_name="store_id",
         queryset=Store.objects.all(),
     )
+
+
+class StoreSKUFilter(StatisticsFilter):
+    """
+    Фильтр для пар товар-магазин, по которым нужен прогноз.
+    """
+
+    class Meta:
+        model = StoreSKU
+        fields = [
+            "store_id",
+            "sku_id",
+            "subcat_id",
+            "cat_id",
+            "group_id",
+        ]
