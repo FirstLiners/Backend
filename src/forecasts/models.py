@@ -30,6 +30,7 @@ class Forecast(models.Model):
     next_day_real_sale = models.PositiveIntegerField(
         "Реальные продажи на следующий день",
         null=True,
+        default=0,
     )
     next_day_forecast = models.PositiveIntegerField(
         "Прогноз на следующий день"
