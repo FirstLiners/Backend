@@ -10,6 +10,13 @@ API для проекта по созданию предсказательной
 - Django REST Framework 3.14.0
 - Postgres
 
+## Используемые библиотеки:
+- djangorestframework-simplejwt
+- drf-spectacular
+- django-filter
+- openpyxl
+- django-cors-headers
+
 ## Для разработчиков:
 #### Файл зависимостей:
 "src/requirements.txt"
@@ -32,6 +39,7 @@ API для проекта по созданию предсказательной
 ## Запуск приложения:
 Для запуска приложения необходим `Docker`. Для операционной системы Windows необходимо установить и активировать WSL2 (https://docs.docker.com/desktop/wsl/).
 
+Перед запуском необходимо в корневой папке проекта создать файл .env с переменными среды (прмер файла - .env.example).
 ```команды для запуска проекта
 docker-compose up
 ```
@@ -44,7 +52,9 @@ docker-compose exec backend python manage.py collectstatic --noinput
 docker-compose exec backend python manage.py createsuperuser
 ```
 
-Для загрузки данных необходимо выполнить следующие команды:
+Для загрузки данных необходимо:
+- Создать папку src/data и разместить в ней сведения о ТЦ, товарной иерархии и исторические данные о продажах
+- Выполнить следующие команды:
 Загрузка данных о товарной иерархии:
 ```
 docker-compose exec backend python manage.py import_skus
