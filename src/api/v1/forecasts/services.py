@@ -1,6 +1,9 @@
 from io import BytesIO
 from tempfile import NamedTemporaryFile
 import openpyxl
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def forecast_file_creation(forecasts):
@@ -22,22 +25,38 @@ def forecast_file_creation(forecasts):
     for i in range(1, 15):
         column_titles.append(f"День{i}")
     active_list.append(column_titles)
-    for forecast in forecasts:
-        data = [
-            forecast["store__store_id"],
-            forecast["sku__subcategory__category__group__group_id"],
-            forecast["sku__subcategory__category__cat_id"],
-            forecast["sku__subcategory__subcat_id"],
-            forecast["sku__sku_id"],
-            forecast["sku__uom"],
-        ]
-        for k, v in forecast["forecast_data"].items():
-            data.append(v)
-        active_list.append(data)
-    with NamedTemporaryFile() as tmp:
-        file.save(tmp.name)
-        output = BytesIO(tmp.read())
-        return output
+    try:
+        # "store__store_id",
+        # "sku__sku_id",
+        # "sku__subcategory__subcat_id",
+        # "sku__subcategory__category__cat_id",
+        # "sku__subcategory__category__group__group_id",
+        # "sku__uom",
+        # "forecast_data",
+        for forecast in forecasts:
+            data = [
+                forecast["store__store_id"],
+                forecast[
+                    "sku__sku_id"
+                ],  #  forecast["sku__subcategory__category__group__group_id"], ???
+                forecast["sku__subcategory__category__cat_id"],
+                forecast["sku__subcategory__subcat_id"],
+                forecast["sku__sku_id"],
+                forecast["sku__uom"],
+            ]
+            for k, v in forecast["forecast_data"].items():
+                data.append(v)
+            active_list.append(data)
+    except Exception as e:
+        logger.error(f"Error processing forecasts: {e}")
+    try:
+        with NamedTemporaryFile() as tmp:
+            file.save(tmp.name)
+            output = BytesIO(tmp.read())
+            return output
+    except Exception as e:
+        logger.error(f"Error creating forecast file: {e}")
+        return None
 
 
 def statistics_file_creation(statistics):
@@ -62,22 +81,29 @@ def statistics_file_creation(statistics):
         "Качество прогноза по WAPE",
     ]
     active_list.append(column_titles)
-    for stat in statistics:
-        data = [
-            stat["store__store_id"],
-            stat["sku__sku_id"],
-            stat["sku__subcategory__category__cat_id"],
-            stat["sku__subcategory__subcat_id"],
-            stat["sku__sku_id"],
-            stat["sku__uom"],
-            stat["period"],
-            stat["real_sale"],
-            stat["forecast"],
-            stat["difference"],
-            stat["wape"],
-        ]
-        active_list.append(data)
-    with NamedTemporaryFile() as tmp:
-        file.save(tmp.name)
-        output = BytesIO(tmp.read())
-        return output
+    try:
+        for stat in statistics:
+            data = [
+                stat["store__store_id"],
+                stat["sku__sku_id"],
+                stat["sku__subcategory__category__cat_id"],
+                stat["sku__subcategory__subcat_id"],
+                stat["sku__sku_id"],
+                stat["sku__uom"],
+                stat["period"],
+                stat["real_sale"],
+                stat["forecast"],
+                stat["difference"],
+                stat["wape"],
+            ]
+            active_list.append(data)
+    except Exception as e:
+        logger.error(f"Error processing statistics: {e}")
+    try:
+        with NamedTemporaryFile() as tmp:
+            file.save(tmp.name)
+            output = BytesIO(tmp.read())
+            return output
+    except Exception as e:
+        logger.error(f"Error creating statistics file: {e}")
+        return None
