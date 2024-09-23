@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from tests.fixtures import TestUserFixture
 
@@ -14,7 +15,7 @@ class TestUser(TestUserFixture):
         User.objects.create_user(email=email, password=password)
         body = {"email": email, "password": password}
         response = self.anon_client.post(
-            "/api/v1/users/token/", data=body, format="json"
+            reverse("get_token"), data=body, format="json"
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTrue("access" in response.data)

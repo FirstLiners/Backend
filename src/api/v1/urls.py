@@ -29,8 +29,8 @@ v1_router.register("forecast_data", views.StoreSKUViewSet, "forecast_data")
 v1_router.register("stores", views.StoreViewSet, basename="stores")
 
 urlpatterns = [
-    path("token/", TokenObtainPairView.as_view()),
-    path("token/refresh/", TokenRefreshView.as_view()),
+    path("token/", TokenObtainPairView.as_view(), name="get_token"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="refresht_token"),
     path("logout/", TokenBlacklistView.as_view(), name="token_blacklist"),
     path("", include(v1_router.urls)),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
