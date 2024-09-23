@@ -18,8 +18,8 @@ from rest_framework.viewsets import GenericViewSet
 
 from api.v1 import serializers as api_serializers
 from api.v1.filters import ForecastFilter, StatisticsFilter, StoreSKUFilter
+from api.v1.services import forecast_file_creation, statistics_file_creation
 from forecasts.models import Forecast, StoreSKU
-from .services import forecast_file_creation, statistics_file_creation
 
 
 @extend_schema(tags=["Forecasts"])
