@@ -5,7 +5,7 @@ from http import HTTPStatus
 from django.urls import reverse
 from django.utils import timezone
 
-from core.fixtures import TestForecastsFixture
+from tests.fixtures import TestForecastsFixture
 
 
 class TestForecasts(TestForecastsFixture):

@@ -4,7 +4,7 @@ from http import HTTPStatus
 from django.urls import reverse
 from django.utils import timezone
 
-from core.fixtures import TestSalesFixture
+from tests.fixtures import TestSalesFixture
 from sales.models import Sale
 
 

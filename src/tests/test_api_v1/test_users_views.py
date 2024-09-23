@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
 
-from core.fixtures import TestUserFixture
+from tests.fixtures import TestUserFixture
 
 User = get_user_model()
 

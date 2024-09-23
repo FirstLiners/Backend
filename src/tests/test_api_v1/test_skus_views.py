@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from django.urls import reverse
 
-from core.fixtures import TestSKUFixture
+from tests.fixtures import TestSKUFixture
 from skus.models import Category, Group, SKU, SubCategory
 
 

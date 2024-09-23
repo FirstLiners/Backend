@@ -5,8 +5,8 @@ from rest_framework import serializers
 
 from forecasts.models import Forecast, StoreSKU
 from sales.models import Sale
-from stores.models import Store
 from skus.models import SKU
+from stores.models import Store
 
 
 class ForecastSerializer(serializers.ModelSerializer):

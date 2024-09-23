@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from django.urls import reverse
 
-from core.fixtures import TestStoreFixture
+from tests.fixtures import TestStoreFixture
 from stores.models import Store
 
 
