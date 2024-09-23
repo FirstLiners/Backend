@@ -8,9 +8,8 @@ from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
 
+from api.v1 import serializers as api_serializers
 from sales.models import Sale
-
-from .serializers import SaleSerializer, SaleCreateSerializer
 
 
 @extend_schema(tags=["Sales"])
@@ -61,11 +60,13 @@ class SaleGetViewset(ListModelMixin, CreateModelMixin, GenericViewSet):
 
     def get_serializer_class(self):
         if self.request.method == "POST":
-            return SaleCreateSerializer
-        return SaleSerializer
+            return api_serializers.SaleCreateSerializer
+        return api_serializers.SaleSerializer
 
     def create(self, request, *args, **kwargs):
-        serializer = SaleCreateSerializer(data=request.data, many=True)
+        serializer = api_serializers.SaleCreateSerializer(
+            data=request.data, many=True
+        )
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data)

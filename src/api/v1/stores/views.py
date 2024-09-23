@@ -3,9 +3,8 @@ from rest_framework import filters
 from rest_framework.mixins import ListModelMixin
 from rest_framework.viewsets import GenericViewSet
 
+from api.v1.serializers import StoreSerializer
 from stores.models import Store
-
-from .serializers import StoreSerializer
 
 
 @extend_schema(tags=["Stores"])

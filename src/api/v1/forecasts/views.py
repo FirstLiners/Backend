@@ -16,15 +16,9 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from api.v1 import serializers as api_serializers
+from api.v1.filters import ForecastFilter, StatisticsFilter, StoreSKUFilter
 from forecasts.models import Forecast, StoreSKU
-
-from .filters import ForecastFilter, StatisticsFilter, StoreSKUFilter
-from .serializers import (
-    ForecastCreateSerializer,
-    ForecastSerializer,
-    StatisticsSerializer,
-    StoreSKUSerializer,
-)
 from .services import forecast_file_creation, statistics_file_creation
 
 
@@ -67,11 +61,13 @@ class ForecastPostViewSet(CreateModelMixin, GenericViewSet):
     Вьюсет для загрузки прогнозов.
     """
 
-    serializer_class = ForecastCreateSerializer
+    serializer_class = api_serializers.ForecastCreateSerializer
     queryset = Forecast.objects.all()
 
     def create(self, request, *args, **kwargs):
-        serializer = ForecastCreateSerializer(data=request.data, many=True)
+        serializer = api_serializers.ForecastCreateSerializer(
+            data=request.data, many=True
+        )
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data)
@@ -86,7 +82,7 @@ class ForecastViewSet(ListModelMixin, GenericViewSet):
     Вьюсет для вывода прогноза продаж.
     """
 
-    serializer_class = ForecastSerializer
+    serializer_class = api_serializers.ForecastSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ForecastFilter
 
@@ -139,7 +135,7 @@ class StatisticsViewset(ListModelMixin, GenericViewSet):
     "month" (выводит статистику за год с разбивкой по месяцам).
     """
 
-    serializer_class = StatisticsSerializer
+    serializer_class = api_serializers.StatisticsSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = StatisticsFilter
 
@@ -231,7 +227,7 @@ class StoreSKUViewSet(ListModelMixin, GenericViewSet):
     Вьюсет для пар магазин/товар, по которым нужн прогноз.
     """
 
-    serializer_class = StoreSKUSerializer
+    serializer_class = api_serializers.StoreSKUSerializer
     queryset = StoreSKU.objects.filter(is_active=True)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = StoreSKUFilter

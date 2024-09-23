@@ -6,13 +6,8 @@ from rest_framework.viewsets import GenericViewSet
 
 from skus.models import Category, Group, SKU, SubCategory
 
-from .filters import CategoryFilter, SubCategoryFilter, SkuFilter
-from .serializers import (
-    CategorySerializer,
-    GroupSerializer,
-    SKUSerializer,
-    SubCategorySerializer,
-)
+from api.v1 import serializers as api_serializers
+from api.v1.filters import CategoryFilter, SubCategoryFilter, SkuFilter
 
 
 @extend_schema(tags=["SKUs"])
@@ -25,7 +20,7 @@ class SKUViewSet(ListModelMixin, GenericViewSet):
     """
 
     queryset = SKU.objects.all()
-    serializer_class = SKUSerializer
+    serializer_class = api_serializers.SKUSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ["sku_id"]
     filterset_class = SkuFilter
@@ -41,7 +36,7 @@ class GroupViewSet(ListModelMixin, GenericViewSet):
     """
 
     queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+    serializer_class = api_serializers.GroupSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ["group_id"]
 
@@ -56,7 +51,7 @@ class CategoryViewSet(ListModelMixin, GenericViewSet):
     """
 
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = api_serializers.CategorySerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ["cat_id"]
     filterset_class = CategoryFilter
@@ -72,7 +67,7 @@ class SubCategoryViewSet(ListModelMixin, GenericViewSet):
     """
 
     queryset = SubCategory.objects.all()
-    serializer_class = SubCategorySerializer
+    serializer_class = api_serializers.SubCategorySerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ["subcat_id"]
     filterset_class = SubCategoryFilter
